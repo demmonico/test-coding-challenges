@@ -16,3 +16,5 @@ They are specially placed in single file to more flexible management and distrib
 - [group shuffled words](php/words.php)
 
 - [transport's issue OOP style](php/transport_oop.php)
+
+- [simple sorting](php/sorting.php)
