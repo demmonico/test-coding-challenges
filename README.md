@@ -19,6 +19,4 @@ They are specially placed in single file to more flexible management and distrib
 
 - [simple sorting methods](php/sorting.php)
 
-- [b-tree sorting OOP style](php/sorting_btree.php)
-
-- [heap sorting OOP style](php/sorting_heap.php)
+- [simple + heap + b-tree sorting OOP style](php/sorting_oop.php)
