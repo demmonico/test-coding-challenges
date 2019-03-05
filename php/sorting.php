@@ -134,3 +134,32 @@ $insertionSort = function(array $arr) use ($swap) {
     return $arr;
 };
 $validate($phpSorted, $measure($insertionSort));
+
+echo "quicksort >>> \n";
+$quickSort = function(array $arr, ?int $left = null, ?int $right = null) use ($swap, &$quickSort) {
+    $left = $i = $left ?? 0;
+    $right = $j = $right ?? count($arr) - 1;
+    $x = $arr[($left + $right) / 2];
+
+    do {
+        while ($arr[$i] < $x) $i++;
+        while ($arr[$j] > $x) $j--;
+        if ($i <= $j) {
+            if ($arr[$i] > $arr[$j]) {
+                $swap($arr, $i, $j);
+            }
+            $i++;
+            $j--;
+        }
+    } while ($i <= $j);
+
+    if ($i < $right) {
+        $quickSort($arr, $i, $right);
+    }
+    if ($j > $left) {
+        $quickSort($arr, $left, $j);
+    }
+
+    return $arr;
+};
+$validate($phpSorted, $measure($quickSort));
