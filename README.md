@@ -3,7 +3,7 @@
 Here placed test scripts. Main goal is collect different tasks and issues. 
 They are specially placed in single file to more flexible management and distributed
 
-## PHP test scripts
+## PHP test snippets
 
 - [OOP late static bindings](php/oop_class_late_static_bindings.php)
 
@@ -20,3 +20,8 @@ They are specially placed in single file to more flexible management and distrib
 - [simple sorting methods](php/sorting.php)
 
 - [simple + heap + b-tree sorting OOP style](php/sorting_oop.php)
+
+## JS test snippets
+
+ - [cycled setTimeout](js/settimeout.js)
+ 
