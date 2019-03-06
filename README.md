@@ -27,3 +27,7 @@ They are specially placed in single file to more flexible management and distrib
  
  - [bind](js/bind.js)
  
+ - [this](js/this.js)
+ 
+ - [prototype](js/prototype.js)
+ 
