@@ -25,3 +25,5 @@ They are specially placed in single file to more flexible management and distrib
 
  - [cycled setTimeout](js/settimeout.js)
  
+ - [bind](js/bind.js)
+ 
