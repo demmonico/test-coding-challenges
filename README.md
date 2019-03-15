@@ -3,7 +3,9 @@
 Here placed test scripts. Main goal is collect different tasks and issues. 
 They are specially placed in single file to more flexible management and distributed
 
-## PHP test snippets
+## Coding test snippets
+
+### PHP 
 
 - [OOP late static bindings](php/oop_class_late_static_bindings.php)
 
@@ -21,7 +23,7 @@ They are specially placed in single file to more flexible management and distrib
 
 - [simple + heap + b-tree sorting OOP style](php/sorting_oop.php)
 
-## JS test snippets
+### JS
 
  - [cycled setTimeout](js/settimeout.js)
  
@@ -30,4 +32,13 @@ They are specially placed in single file to more flexible management and distrib
  - [this](js/this.js)
  
  - [prototype](js/prototype.js)
+
+## HackerRank coding tests
+
+- <details><summary>examples</summary>
+<img src="docs/images/single-dm-server-mode-scheme.png" alt="single DM server mode" width=100%> 
+</details>
+
+- [hackerrank test examples](hackerrank/hackerrank.php)
+ 
  
