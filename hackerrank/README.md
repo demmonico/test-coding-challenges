@@ -8,11 +8,11 @@
 - [initial testing sample](initial-testing.php)
 
     <details><summary>task description - Find the number</summary>
-    <img src="screenshot/tests-sample-questions-find-th-number-2019-03-11-15_44_38.png" alt="Find the number" width=100%> 
+    <img src="screenshots/tests-sample-questions-find-th-number-2019-03-11-15_44_38.png" alt="Find the number" width=100%> 
     </details>
     
     <details><summary>task description - Odd numbers</summary>
-    <img src="screenshot/tests-sample-questions-odd-numbers-2019-03-11-15_50_37.png" alt="Odd numbers" width=100%> 
+    <img src="screenshots/tests-sample-questions-odd-numbers-2019-03-11-15_50_37.png" alt="Odd numbers" width=100%> 
     </details>
 
 

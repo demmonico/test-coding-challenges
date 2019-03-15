@@ -37,14 +37,3 @@ They are specially placed in single file to more flexible management and distrib
 
 [HackerRank coding tests](hackerrank/README.md)
 
-
-
-
-- [sample test HR with wrapper](hackerrank/sample.php)
-
-- [hackerrank test examples](hackerrank/hackerrank.php)
-
-    <details><summary>sample test HR with wrapper</summary>
-    <img src="docs/images/single-dm-server-mode-scheme.png" alt="single DM server mode" width=100%> 
-    </details>
-
