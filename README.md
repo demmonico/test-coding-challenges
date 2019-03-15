@@ -33,6 +33,38 @@ They are specially placed in single file to more flexible management and distrib
  
  - [prototype](js/prototype.js)
 
+### SQL
+
+[Migrations SQL for test DB](sql/test_db.sql)
+ 
+ - List of users with max car price which they have
+ 
+     ```mysql
+    # simple
+    SELECT u.name, MAX(c.price) price
+    FROM `user` u
+      INNER JOIN `car` c ON c.user_id=u.id
+    GROUP BY u.id;
+    
+    # sub-select
+    SELECT
+      (SELECT u.name FROM `user` u WHERE u.id=c.user_id) as name,
+      MAX(c.price) as price
+    FROM `car` c
+    GROUP BY c.user_id;
+    ```
+
+ - List of users having car with max price
+ 
+    ```mysql
+    SELECT u.name, MAX(c.price) price
+    FROM `user` u
+       INNER JOIN `car` c ON c.user_id=u.id
+    GROUP BY u.id
+    HAVING price=(SELECT MAX(c.price) price FROM `car` c);
+    ```
+
+
 ## HackerRank coding tests
 
 [HackerRank coding tests](hackerrank/README.md)
