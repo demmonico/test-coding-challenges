@@ -7,21 +7,21 @@ They are specially placed in single file to more flexible management and distrib
 
 ### PHP 
 
-- [OOP late static bindings](php/oop_class_late_static_bindings.php)
+- [OOP late static bindings](php/oop-class-late-static-bindings.php)
 
-- [OOP sharing static property](php/oop_sharing_static_property.php)
+- [OOP sharing static property](php/oop-sharing-static-property.php)
 
 - [sending email](php/email.php)
 
-- [strcmp benchmark](php/strcmp_benchmark.php)
+- [strcmp benchmark](php/strcmp-benchmark.php)
 
 - [group shuffled words](php/words.php)
 
-- [transport's issue OOP style](php/transport_oop.php)
+- [transport's issue OOP style](php/transport-oop.php)
 
 - [simple sorting methods](php/sorting.php)
 
-- [simple + heap + b-tree sorting OOP style](php/sorting_oop.php)
+- [simple + heap + b-tree sorting OOP style](php/sorting-oop.php)
 
 ### JS
 
@@ -35,31 +35,16 @@ They are specially placed in single file to more flexible management and distrib
 
 ## HackerRank coding tests
 
+[HackerRank coding tests](hackerrank/README.md)
+
+
+
+
 - [sample test HR with wrapper](hackerrank/sample.php)
 
 - [hackerrank test examples](hackerrank/hackerrank.php)
-<details><summary>sample test HR with wrapper</summary>
-<img src="docs/images/single-dm-server-mode-scheme.png" alt="single DM server mode" width=100%> 
-</details>
- 
-- [hackerrank test examples](hackerrank/hackerrank.php)
-
-<details><summary>sample test HR with wrapper</summary>
-<img src="docs/images/single-dm-server-mode-scheme.png" alt="single DM server mode" width=100%> 
-</details>
-
-- [hackerrank test examples](hackerrank/hackerrank.php)
-    <details><summary>sample test HR with wrapper</summary>
-    <img src="docs/images/single-dm-server-mode-scheme.png" alt="single DM server mode" width=100%> 
-    </details>
-
-- [hackerrank test examples](hackerrank/hackerrank.php)
 
     <details><summary>sample test HR with wrapper</summary>
     <img src="docs/images/single-dm-server-mode-scheme.png" alt="single DM server mode" width=100%> 
     </details>
-
-- [hackerrank test examples](hackerrank/hackerrank.php) <details><summary>sample test HR with wrapper</summary>
-<img src="docs/images/single-dm-server-mode-scheme.png" alt="single DM server mode" width=100%> 
-</details>
 

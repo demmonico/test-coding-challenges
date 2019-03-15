@@ -1,4 +1,9 @@
 <?php
+/**
+ * Sample test HR with wrapper
+ *
+ * @author demmonico@gmail.com
+ */
 
 // sample input
 $input = <<<INPUT
