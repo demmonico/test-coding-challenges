@@ -1,7 +1,7 @@
 # Test task examples collection
 
 Here placed test scripts. Main goal is collect different tasks and issues. 
-They are specially placed in single file to more flexible management and distributed
+
 
 ## Coding test snippets
 
