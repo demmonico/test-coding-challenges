@@ -7,21 +7,21 @@ Here placed test scripts. Main goal is collect different tasks and issues.
 
 ### PHP 
 
-- [OOP late static bindings](php/oop-class-late-static-bindings.php)
+- [OOP late static bindings](php/oop_class_late_static_bindings.php)
 
-- [OOP sharing static property](php/oop-sharing-static-property.php)
+- [OOP sharing static property](php/oop_sharing_static_property.php)
 
 - [sending email](php/email.php)
 
-- [strcmp benchmark](php/strcmp-benchmark.php)
+- [strcmp benchmark](php/strcmp_benchmark.php)
 
 - [group shuffled words](php/words.php)
 
-- [transport's issue OOP style](php/transport-oop.php)
+- [transport's issue OOP style](php/transport_oop.php)
 
 - [simple sorting methods](php/sorting.php)
 
-- [simple + heap + b-tree sorting OOP style](php/sorting-oop.php)
+- [simple + heap + b-tree sorting OOP style](php/sorting_oop.php)
 
 ### JS
 

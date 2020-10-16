@@ -2,7 +2,7 @@
 /**
  * Test script transport's issue
  *
- * @use `php transport.php` or `php transport.php price`
+ * @use `php transport_oop.php` or `php transport_oop.php price`
  *
  * @author demmonico@gmail.com
  */
