@@ -18,7 +18,7 @@
     </details>
     
     <details><summary>task description - Sock merchant</summary>
-    <img src="./screenshots/challenges-sock-merchant-problem-2019-03-11-16_11_22.png" alt="Sock merchant" width=100%> 
+    <img src="screenshots/challenges-sock-merchant-problem-2019-03-11-16_11_22.png" alt="Sock merchant" width=100%> 
     </details>
 
 - [Warm-up Challenges](php/warm-up-challenges.php)
@@ -103,7 +103,7 @@
 </details>
 
 <details><summary>task description - Select all</summary>
-<img src="screenshots/challenges-select-all-sql-problem-2019-03-14-13_08_45" alt="Select all" width=100%> 
+<img src="screenshots/challenges-select-all-sql-problem-2019-03-14-13_08_45.png" alt="Select all" width=100%> 
 </details>
 
 <details><summary>task description - Whether observation station</summary>
