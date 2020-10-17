@@ -49,17 +49,23 @@ foreach ($words as $word) {
     $processWord($word);
 }
 
-print_r($results);
+echo 'Init: ' . PHP_EOL . implode(',', $words) . PHP_EOL . PHP_EOL;
+
+echo 'Results: ' . PHP_EOL;
+foreach ($results as $result) {
+    echo implode(',', $result) . PHP_EOL;
+}
 
 
 
-/**
- * return [
- *      ['hi'],
- *      ['hello', 'helol'],
- *      ['bye'],
- *      ['eSTimate', 'estimate', 'setimaet', 'etamitse'],
- *      ['asd', 'das', 'dsa'],
- *      ['123', '312']
- * ]
- */
+// Output:
+//Init:
+//hi,hello,helol,bye,eSTimate,asd,das,estimate,dsa,setimaet,etamitse,123,312
+//
+//Results:
+//hi
+//hello,helol
+//bye
+//eSTimate,estimate,setimaet,etamitse
+//asd,das,dsa
+//123,312

@@ -44,7 +44,7 @@ class C extends A
 
 
 
-// null
+// all return null
 var_dump(B::getStaticTest());
 var_dump(B::getSelfTest());
 var_dump(C::getStaticTest());
@@ -52,7 +52,7 @@ var_dump(C::getSelfTest());
 
 
 $b = new B;
-// B
+// all return B
 var_dump(B::getStaticTest());
 var_dump(B::getSelfTest());
 var_dump(C::getStaticTest());
@@ -62,7 +62,7 @@ var_dump($b::getSelfTest());
 
 
 $c = new C;
-// B
+// all return B again
 var_dump(B::getStaticTest());
 var_dump(B::getSelfTest());
 var_dump(C::getStaticTest());

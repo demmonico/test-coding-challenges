@@ -242,16 +242,16 @@ final class BinaryNode
      *
      * @param TreeVisitorInterface $visitor
      */
-    public function traverse(TreeVisitorInterface $visitor): void
+    public function traverseLeftToRight(TreeVisitorInterface $visitor): void
     {
         if ($this->left) {
-            $this->left->traverse($visitor);
+            $this->left->traverseLeftToRight($visitor);
         }
 
         $visitor->visit($this);
 
         if ($this->right) {
-            $this->right->traverse($visitor);
+            $this->right->traverseLeftToRight($visitor);
         }
     }
 
@@ -348,7 +348,7 @@ final class BTreeSorter implements SorterInterface
 
         // traverse
         if ($this->tree) {
-            $this->tree->traverse($this->visitor);
+            $this->tree->traverseLeftToRight($this->visitor);
         }
 
         return $this->visitor->getNodeValues();
@@ -356,12 +356,17 @@ final class BTreeSorter implements SorterInterface
 
     private function buildTree(array $arr): void
     {
+        if (empty($arr)) {
+            return;
+        }
+
+        // assign first elem - init tree
+        $first = array_shift($arr);
+        $this->tree = new BinaryNode($first);
+
+        // assign other elems
         foreach ($arr as $item) {
-            if ($this->tree) {
-                $this->tree->insert($item);
-            } else {
-                $this->tree = new BinaryNode($item);
-            }
+            $this->tree->insert($item);
         }
     }
 }
@@ -515,6 +520,43 @@ class CliHelper
 // get arguments
 [$verbose, $arraySize, $arrayStep] = CliHelper::parseArguments($argv);
 // init
-(new TestRunner)->setVerbose($verbose)
+(new TestRunner)
+//    ->setVerbose($verbose)
     ->generate($arraySize, $arrayStep)
     ->run();
+
+
+
+// Output:
+
+//bubble sorter >>>
+// >  0.84 ms sorting of 25 elements
+//shaker sorter >>>
+// >  0.04 ms sorting of 25 elements
+//quick sorter >>>
+// >  0.02 ms sorting of 25 elements
+//native php quick sorter >>>
+// >  0.01 ms sorting of 25 elements
+//heap sorter >>>
+// >  0.42 ms sorting of 25 elements
+//insertion sorter >>>
+// >  0.06 ms sorting of 25 elements
+//b tree sorter >>>
+// >  0.08 ms sorting of 25 elements
+
+// Under load:
+
+//bubble sorter >>>
+// >  5,013.82 ms sorting of 10000 elements
+//shaker sorter >>>
+// >  4,137.23 ms sorting of 10000 elements
+//quick sorter >>>
+// >  9.69 ms sorting of 10000 elements
+//native php quick sorter >>>
+// >  3.00 ms sorting of 10000 elements
+//heap sorter >>>
+// >  47.00 ms sorting of 10000 elements
+//insertion sorter >>>
+// >  1,184.55 ms sorting of 10000 elements
+//b tree sorter >>>
+// >  33.33 ms sorting of 10000 elements

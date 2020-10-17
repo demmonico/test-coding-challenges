@@ -9,11 +9,11 @@
 
 $isVerbosalPrint = isset($argv[1]) && $argv[1] === '-v';
 
-$printArr = function(array $arr) {
-    echo implode(',', $arr) . "\n";
+$cbPrintArray = function(array $arr) {
+    echo implode(',', $arr) . PHP_EOL;
 };
 
-$swap = function(array &$arr, int $indA, int $indB) {
+$cbSwap = function(array &$arr, int $indA, int $indB) {
     // more LoC but faster
     $t = $arr[$indA];
     $arr[$indA] = $arr[$indB];
@@ -28,11 +28,11 @@ $arr = range(0, 99, rand(1, 4));
 shuffle($arr);
 if ($isVerbosalPrint) {
     echo "initial array\n";
-    $printArr($arr);
+    $cbPrintArray($arr);
 }
 
 // measure wrapper
-$measure = function(callable $callback) use ($arr, $isVerbosalPrint, $printArr) {
+$cbMeasure = function(callable $callback) use ($arr, $isVerbosalPrint, $cbPrintArray) {
     $time = microtime(true);
     $sorted = $callback($arr);
     $time = number_format((microtime(true) - $time) * 1000, 2);
@@ -40,20 +40,20 @@ $measure = function(callable $callback) use ($arr, $isVerbosalPrint, $printArr) 
 
     echo " >  $time ms sorting of {$size} elements\n";
     if ($isVerbosalPrint) {
-        $printArr($sorted);
+        $cbPrintArray($sorted);
     }
 
     return $sorted;
 };
 
-$validate = function(array $phpSorted, array $customSorted) use ($printArr) {
+$cbValidate = function(array $phpSorted, array $customSorted) use ($cbPrintArray) {
     if ([] !== $diff = array_diff($phpSorted, $customSorted)) {
         echo "there are diff between `phpSorted` and `customSorted`. Please, check it\n";
-        $printArr($diff);
+        $cbPrintArray($diff);
         echo "`phpSorted` >>>\n";
-        $printArr($phpSorted);
+        $cbPrintArray($phpSorted);
         echo "`customSorted` >>>\n";
-        $printArr($customSorted);
+        $cbPrintArray($customSorted);
         die;
     }
 };
@@ -61,14 +61,14 @@ $validate = function(array $phpSorted, array $customSorted) use ($printArr) {
 
 
 echo "build-in PHP sort (quicksort) >>> \n";
-$phpSort = function(array $arr) {
+$cbPhpSort = function(array $arr) {
     sort($arr);
     return $arr;
 };
-$phpSorted = $measure($phpSort);
+$phpSorted = $cbMeasure($cbPhpSort);
 
 echo "bubblesort >>> \n";
-$bubbleSort = function(array $arr) use ($swap) {
+$cbBubbleSort = function(array $arr) use ($cbSwap) {
     $n = sizeof($arr);
     // main loop
     for ($i = 0; $i < $n - 2; $i++) {
@@ -76,7 +76,7 @@ $bubbleSort = function(array $arr) use ($swap) {
         // shift loop
         for ($j = 0; $j < $n - $i - 1; $j++) {
             if ($arr[$j] > $arr[$j+1]) {
-                $swap($arr, $j, $j + 1);
+                $cbSwap($arr, $j, $j + 1);
                 $wasReplacement = true;
             }
         }
@@ -88,10 +88,10 @@ $bubbleSort = function(array $arr) use ($swap) {
 
     return $arr;
 };
-$validate($phpSorted, $measure($bubbleSort));
+$cbValidate($phpSorted, $cbMeasure($cbBubbleSort));
 
 echo "shakersort >>> \n";
-$shakerSort = function(array $arr) use ($swap) {
+$cbShakerSort = function(array $arr) use ($cbSwap) {
     $left = 0;
     $right = sizeof($arr) - 1;
 
@@ -99,14 +99,14 @@ $shakerSort = function(array $arr) use ($swap) {
         // from left to right
         for ($i = $left; $i < $right; $i++) {
             if ($arr[$i] > $arr[$i + 1]) {
-                $swap($arr, $i, $i + 1);
+                $cbSwap($arr, $i, $i + 1);
             }
         }
         $right--;
         // from right to left
         for ($i = $right; $i > $left; $i--) {
             if ($arr[$i] < $arr[$i - 1]) {
-                $swap($arr, $i, $i - 1);
+                $cbSwap($arr, $i, $i - 1);
             }
         }
         $left++;
@@ -114,10 +114,10 @@ $shakerSort = function(array $arr) use ($swap) {
 
     return $arr;
 };
-$validate($phpSorted, $measure($shakerSort));
+$cbValidate($phpSorted, $cbMeasure($cbShakerSort));
 
 echo "insertionsort >>> \n";
-$insertionSort = function(array $arr) use ($swap) {
+$cbInsertionSort = function(array $arr) use ($cbSwap) {
     $n = sizeof($arr);
 
     for ($i = 2; $i <= $n; $i++) {
@@ -133,10 +133,10 @@ $insertionSort = function(array $arr) use ($swap) {
 
     return $arr;
 };
-$validate($phpSorted, $measure($insertionSort));
+$cbValidate($phpSorted, $cbMeasure($cbInsertionSort));
 
 echo "quicksort >>> \n";
-$quickSort = function(array $arr, ?int $left = null, ?int $right = null) use ($swap, &$quickSort) {
+$cbQuickSort = function(array $arr, ?int $left = null, ?int $right = null) use ($cbSwap, &$cbQuickSort) {
     $left = $i = $left ?? 0;
     $right = $j = $right ?? count($arr) - 1;
     $x = $arr[($left + $right) / 2];
@@ -146,7 +146,7 @@ $quickSort = function(array $arr, ?int $left = null, ?int $right = null) use ($s
         while ($arr[$j] > $x) $j--;
         if ($i <= $j) {
             if ($arr[$i] > $arr[$j]) {
-                $swap($arr, $i, $j);
+                $cbSwap($arr, $i, $j);
             }
             $i++;
             $j--;
@@ -154,12 +154,26 @@ $quickSort = function(array $arr, ?int $left = null, ?int $right = null) use ($s
     } while ($i <= $j);
 
     if ($i < $right) {
-        $quickSort($arr, $i, $right);
+        $cbQuickSort($arr, $i, $right);
     }
     if ($j > $left) {
-        $quickSort($arr, $left, $j);
+        $cbQuickSort($arr, $left, $j);
     }
 
     return $arr;
 };
-$validate($phpSorted, $measure($quickSort));
+$cbValidate($phpSorted, $cbMeasure($cbQuickSort));
+
+
+
+// Output
+//build-in PHP sort (quicksort) >>>
+// >  0.05 ms sorting of 50 elements
+//bubblesort >>>
+// >  0.48 ms sorting of 50 elements
+//shakersort >>>
+// >  0.18 ms sorting of 50 elements
+//insertionsort >>>
+// >  0.11 ms sorting of 50 elements
+//quicksort >>>
+// >  0.12 ms sorting of 50 elements

@@ -2,7 +2,7 @@
 /**
  * Test script transport's issue
  *
- * @use `php transport_oop.php` or `php transport_oop.php price`
+ * @use `php transport_oop.php` or `php transport_oop.php price` to count total price
  *
  * @author demmonico@gmail.com
  */
@@ -27,7 +27,6 @@ final class Ticket
     private $description;
 
     /**
-     * Ticket constructor.
      * @param string $from
      * @param string $to
      * @param int $price
@@ -94,7 +93,7 @@ interface StrategyInterface
      * @param Ticket[] $variants
      * @return array
      */
-    public function sort(array $variants): array;
+    public function calcWeights(array $variants): array;
 }
 
 final class DummyStrategy implements StrategyInterface
@@ -103,19 +102,19 @@ final class DummyStrategy implements StrategyInterface
      * @param Ticket[] $variants
      * @return array
      */
-    public function sort(array $variants): array
+    public function calcWeights(array $variants): array
     {
         return $variants;
     }
 }
 
-final class PriceStrategy implements StrategyInterface
+final class PriceLowerFirstStrategy implements StrategyInterface
 {
     /**
      * @param Ticket[] $variants
      * @return array
      */
-    public function sort(array $variants): array
+    public function calcWeights(array $variants): array
     {
         // get weights
         $weights = [];
@@ -127,35 +126,26 @@ final class PriceStrategy implements StrategyInterface
             }
         }
 
-        // sort weights
-        asort($weights);
-
-        // sort variants
-        $results = [];
-        // define incremental naming
-        $attempts = 0;
-        $naming = function($weight, $attempts) use ($results, &$naming){
-            $name = FormatHelper::money($weight) . ($attempts === 0 ? '' : " [$attempts]");
-            return !isset($results[$name]) ? $name : $naming($weight, $attempts);
-        };
-        foreach ($weights as $index => $weight) {
-            $results[$naming($weight, $attempts)] = $variants[$index];
-        }
-
-        return $results;
+        return $weights;
     }
 }
 
 final class StrategyFactory
 {
-    public static function getStrategy(string $type): StrategyInterface
+    const STRATEGY_TYPES = [
+        'dummy' => DummyStrategy::class,
+        'price' => PriceLowerFirstStrategy::class,
+    ];
+
+    public static function getStrategy(string $type = 'dummy'): StrategyInterface
     {
-        $strategyClass = ucfirst(strtolower($type)) . 'Strategy';
-        if (class_exists($strategyClass)) {
-            return new $strategyClass();
+        if (!isset(self::STRATEGY_TYPES[$type])) {
+            throw new LogicException(sprintf("Error: strategy '%s' was not registered!", $type));
         }
 
-        return new DummyStrategy();
+        $strategyClass = self::STRATEGY_TYPES[$type];
+
+        return new $strategyClass;
     }
 }
 
@@ -170,13 +160,13 @@ final class TicketInfoFormatter implements TicketInfoFormatterInterface
     {
         $price = FormatHelper::money($ticket->getPrice());
         
-        return "From {$ticket->getFrom()} to {$ticket->getTo()}, price {$price}. {$ticket->getDescription()}";
+        return "From {$ticket->getFrom()} to {$ticket->getTo()}, price {$price}, {$ticket->getDescription()}";
     }
 }
 
 interface SearchInfoFormatterInterface
 {
-    public function printInfo(array $results): string;
+    public function printInfo(array $results, array $weights): string;
 }
 
 final class SearchInfoFormatter implements SearchInfoFormatterInterface
@@ -195,105 +185,83 @@ final class SearchInfoFormatter implements SearchInfoFormatterInterface
         $this->ticketInfoFormatter = $ticketInfoFormatter;
     }
 
-    public function printInfo(array $results): string
+    public function printInfo(array $results, array $weights): string
     {
         $response = '';
         $itemFormatter = $this->ticketInfoFormatter;
         $i = 0;
         
-        foreach ($results as $weight => $result) {
-            $weightInfo = is_int($weight) ? '' : " $weight";
-            $response .= '*** Variant ' . ++$i . " *** $weightInfo ***\n";
-            $response .= implode("\n", array_map(function ($ticket) use ($itemFormatter){
-                /**
-                 * @var $ticket Ticket
-                 */
+        foreach ($results as $index => $result) {
+            $response .= sprintf('*** Variant %d *** %s ***' . PHP_EOL, ++$i, $this->formatWeight($weights[$index]));
+            $response .= implode(PHP_EOL, array_map(function (Ticket $ticket) use ($itemFormatter){
                 return $itemFormatter->printInfo($ticket);
-            }, $result)) . "\n\n";
+            }, $result)) . PHP_EOL . PHP_EOL;
         }
         
         return $response;
+    }
+
+    private function formatWeight(string $weight): string
+    {
+        return FormatHelper::money($weight);
     }
 }
 
 final class Finder
 {
     /**
-     * @var StrategyInterface
-     */
-    private $strategy;
-
-    /**
      * @var Ticket[] 
      */
-    private $tickets = [];
+    private $tickets;
+    private $depth = 0;
+    private $depthLimit = 10;
+    private $paths = [];
+    private $sortedPath = [];
+    private $sortedWeights = [];
 
     /**
-     * @var array
-     */
-    private $results = [];
-
-    /**
-     * @var int
-     */
-    private $depth;
-
-    /**
-     * @var int
-     */
-    private $depthLimit;
-
-    /**
-     * Finder constructor.
      * @param Ticket[] $tickets
-     * @param int $depthLimit
      */
-    public function __construct(array $tickets, ?int $depthLimit = 10)
+    public function __construct(array $tickets)
     {
         $this->tickets = $tickets;
-        $this->depthLimit = $depthLimit;
     }
 
-    /**
-     * @param StrategyInterface $strategy
-     * @return Finder
-     */
-    public function setStrategy(StrategyInterface $strategy): self
+    public function sort(StrategyInterface $strategy): self
     {
-        $this->strategy = $strategy;
-        
-        return $this;
-    }
-    
-    public function search(string $from, string $to): self
-    {
-        $this->results = [];
-        
-        foreach ($this->tickets as $ticket) {
-            $this->depth = 0;
-            
-            $stack = $this->resolve($ticket, $from, $to, []);
+        // get weights
+        $weights = $strategy->calcWeights($this->paths);
+        asort($weights);
 
-            if (!empty($stack)) {
-                $this->results[] = $stack;
-            }
+        // re-init indexes
+        foreach ($weights as $index => $weight) {
+            $this->sortedPath[] = $this->paths[$index];
+            $this->sortedWeights[] = $weight;
         }
 
         return $this;
     }
-    
-    public function getAll(): array
+
+    public function getAll(SearchInfoFormatterInterface $formatter): string
     {
-        return $this->strategy ? $this->strategy->sort($this->results) : $this->results;
+        return $formatter->printInfo($this->sortedPath, $this->sortedWeights);
     }
 
-    /**
-     * @param SearchInfoFormatterInterface $formatter
-     * @return string
-     */
-    public function getAllFormatted(SearchInfoFormatterInterface $formatter): string
+    public function search(string $from, string $to): self
     {
-        return $formatter->printInfo($this->getAll());
+        $this->paths = [];
+
+        foreach ($this->tickets as $ticket) {
+            $this->depth = 0;
+
+            $stack = $this->resolve($ticket, $from, $to, []);
+
+            if (!empty($stack)) {
+                $this->paths[] = $stack;
+            }
+        }
+
+        return $this;
     }
 
     private function subSearch(string $from, string $to): array
@@ -314,7 +282,7 @@ final class Finder
         } // possible partial link
         elseif ($ticket->getFrom() === $from
             // limit is not reached
-            && $this->isLimitDepthReached()
+            && !$this->isLimitDepthReached()
             // prevent loop
             && !isset($stack[$ticket->getFrom()])
         ) {
@@ -330,18 +298,18 @@ final class Finder
     
     private function isLimitDepthReached(): bool
     {
-        return ++$this->depth <= $this->depthLimit;
+        return ++$this->depth > $this->depthLimit;
     }
 }
 
 final class FormatHelper
 {
     const LOCALE = 'en_US';
-    
+
     public static function money(int $number): string
     {
         setlocale(LC_MONETARY, self::LOCALE);
-        
+
         return money_format('%n', $number ?: 0);
     }
 }
@@ -369,9 +337,9 @@ $tickets = (new TicketFactory)->generateTickets([
 $strategy = StrategyFactory::getStrategy($argv[1] ?? 'dummy');
 $formatter = new SearchInfoFormatter(new TicketInfoFormatter);
 $variants = (new Finder($tickets))
-    ->setStrategy($strategy)
     ->search('a', 'z')
-    ->getAllFormatted($formatter);
+    ->sort($strategy)
+    ->getAll($formatter);
 
 print_r($variants);
 
