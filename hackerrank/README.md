@@ -16,13 +16,13 @@
     <details><summary>task description - Odd numbers</summary>
     <img src="screenshots/tests-sample-questions-odd-numbers-2019-03-11-15_50_37.png" alt="Odd numbers" width=100%> 
     </details>
+    
+    <details><summary>task description - Sock merchant</summary>
+    <img src="./screenshots/challenges-sock-merchant-problem-2019-03-11-16_11_22.png" alt="Sock merchant" width=100%> 
+    </details>
 
 - [Warm-up Challenges](php/warm-up-challenges.php)
 
-    <details><summary>task description - Sock merchant</summary>
-    <img src="screenshots/challenges-sock-merchant-problem-2019-03-11-16_11_22.png" alt="Sock merchant" width=100%> 
-    </details>
-    
     <details><summary>task description - Counting valleys</summary>
     <img src="screenshots/challenges-counting-valleys-problem-2019-03-11-16_34_04.png" alt="Counting valleys" width=100%> 
     </details>
