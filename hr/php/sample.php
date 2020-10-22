@@ -24,7 +24,7 @@ function test($arr, $k) {
 
 
 
-// hackerrank caller wrapper
+// hr caller wrapper
 
 $arr_count = intval(trim($input));
 

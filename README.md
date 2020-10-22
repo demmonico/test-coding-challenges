@@ -65,7 +65,7 @@ Here placed test scripts. Main goal is collect different tasks and issues.
     ```
 
 
-## HackerRank coding tests
+## HR coding tests
 
-[HackerRank coding tests](hackerrank/README.md)
+[HR coding tests](hr/README.md)
 

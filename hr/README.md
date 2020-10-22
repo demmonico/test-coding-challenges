@@ -1,4 +1,4 @@
-# HackerRank coding tests
+# HR coding tests
 
 [<- Go back](../README.md)
 
