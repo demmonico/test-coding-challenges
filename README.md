@@ -65,7 +65,8 @@ Here placed test scripts. Main goal is collect different tasks and issues.
     ```
 
 
-## HR coding tests
+## Coding test platforms
 
 [HR coding tests](hr/README.md)
 
+[CD coding tests](cd/README.md)
