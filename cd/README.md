@@ -1,4 +1,4 @@
-# CD coding challenge
+# CD coding challenges
 
 [<- Go back](../README.md)
 
