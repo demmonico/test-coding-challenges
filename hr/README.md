@@ -1,4 +1,4 @@
-# HR coding tests
+# HR coding challenges
 
 [<- Go back](../README.md)
 
