@@ -1,9 +1,9 @@
-# Test task examples collection
+# Сollection of test coding challenges
 
-Here placed test scripts. Main goal is collect different tasks and issues. 
+Main goal is collect different scripts of the challenges and tasks. 
 
 
-## Coding test snippets
+## Coding snippets
 
 ### PHP 
 
@@ -65,8 +65,8 @@ Here placed test scripts. Main goal is collect different tasks and issues.
     ```
 
 
-## Coding test platforms
+## Coding challenge platforms
 
-[HR coding tests](hr/README.md)
+[HR coding challenge](hr/README.md)
 
-[CD coding tests](cd/README.md)
+[CD coding challenge](cd/README.md)
