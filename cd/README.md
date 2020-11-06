@@ -1,4 +1,4 @@
-# CD coding tests
+# CD coding challenge
 
 [<- Go back](../README.md)
 
